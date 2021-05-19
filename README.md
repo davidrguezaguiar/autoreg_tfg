@@ -4,4 +4,6 @@ Código fuente correspondiente al desarrollo de una solución para el registro d
 
 Está asociado al desarrollo del Trabajo Fin de Grado (TFG) bajo el título: "Soluciones para la validación automática de usuarios en la red", como parte del Curso de Adaptación al Grado en Ingeniería Informática de la Univeridad Internacional de La Riona (UNIR).
 
-Autor: David Rodríguez Aguiar (david.rodriguez@ulpgc.es) - Tutor: Francisco José Soltero Domingo
+Autor: David Rodríguez Aguiar (david.rodriguez@ulpgc.es)
+
+Tutor: Francisco José Soltero Domingo
