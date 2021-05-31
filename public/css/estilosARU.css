@@ -1,0 +1,11 @@
+.radio, .checkbox {
+    margin-top: 0px;
+    margin-bottom: 0px;
+}
+textarea:disabled{
+    background-color: #eee !important;
+}
+
+body > div.ui.container > div.ui.message{
+    margin-top: 2em;
+}
