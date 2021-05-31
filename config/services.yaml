@@ -1,0 +1,98 @@
+# This file is the entry point to configure your own services.EPI
+# Files in the packages/ subdirectory configure your dependencies.
+
+# Put parameters here that don't need to change on each machine where the app is deployed
+# https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
+parameters:
+    locale: 'es'
+    fichero_aplicacion_deshabilitada: '../lock.txt'
+    ##Directorio donde va a estar la autoridad certificadora para ser usada con el WS de Firma electronica
+    directorioCertificado: '%kernel.project_dir%/config/cert'
+    ruta_temporal: '%kernel.project_dir%/var/tmp'
+    informacion_sitio: 'Aplicación de registro de usuarios'
+
+    bin_app: '%kernel.project_dir%/bin'
+    pdf_app: '%kernel.project_dir%/public/pdf'
+    twig_app: '%kernel.project_dir%/templates'
+
+    # **************************************************************************************************************************************
+    # **************************************************************************************************************************************
+    # ***************************************************SUPLANTACION DE IDENTIDAD**********************************************************
+    # **************************************************************************************************************************************
+    # **************************************************************************************************************************************
+    #
+    #                                                           IMPORTANTE:
+    #         La suplantacion de identidad solo estara habilitada en el entorno de desarrollo por motivos de seguridad
+    #
+    # nombre_app_suplantada es un parametro que sirve para discriminar en sesion la aplicacion suplantada de forma que la suplantacion
+    # de la identidad de un usuario en una aplicacion no se propague a otras aplicaciones.
+    # Lo ideal es que coincida con el nombre del proyecto (para evitar solapamientos) y que sea una cadena en minusculas y sin espacios
+    # donde cada cadena se separe de otra con guiones bajos, por ejemplo: actasweb_tft
+    nombre_app_suplantada: 'ARU'
+    
+services:
+    # default configuration for services in *this* file
+    _defaults:
+        autowire: true      # Automatically injects dependencies in your services.
+        autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
+        public: false
+
+    # makes classes in src/ available to be used as services
+    # this creates a service per class whose id is the fully-qualified class name
+    App\:
+        resource: '../src/*'
+        exclude: '../src/{DBAL,Entity,Migrations,Tests,Lib}'
+
+
+    # controllers are imported separately to make sure services can be injected
+    # as action arguments even if you don't extend any base controller class
+    App\Controller\:
+        resource: '../src/Controller'
+        tags: ['controller.service_arguments']
+
+    # add more service definitions when explicit configuration is needed
+    # please note that last definitions always *replace* previous ones
+             
+             
+    # the `qipsius.tcpdf` service will be injected when a
+    # `Qipsius\TCPDFBundle\Controller\TCPDFController` type-hint is detected
+    # Qipsius\TCPDFBundle\Controller\TCPDFController: '@qipsius.tcpdf'                
+    Qipsius\TCPDFBundle\Controller\:
+        resource: '../vendor/qipsius/tcpdf-bundle/Controller'
+        arguments:
+            $className: 'App\Lib\PDF\UlpgcPDF'            
+                                                                                 
+    Doctrine\DBAL\Event\Listeners:
+      class: Doctrine\DBAL\Event\Listeners\OracleSessionInit
+      tags:
+      - { name: doctrine.event_listener, event: postConnect }
+
+    App\Service\Base\Suplantacion\SuplantadorIdentidadService:
+      arguments: 
+       $Logger: '@logger'
+      tags:
+        - { name: kernel.event_listener, event: kernel.request }
+        - { name: monolog.logger, handler: ulpgc, channel: ulpgc }            
+
+    App\Service\ARUServices:
+      arguments: 
+       $oCache: '@cache.ulpgc'
+      tags:
+        - { name: kernel.event_listener, event: kernel.request }
+        - { name: kernel.event_listener, event: kernel.controller}
+        
+    App\Service\extraTwigExtension:
+     arguments:
+      $container: "@service_container"
+     tags:
+           - { name: twig.extension }         
+        
+    # Reescritura del canal de log
+    App\Orm\ARUBaseORM:        
+
+framework:
+    cache:
+        pools:
+            cache.ulpgc:
+                adapter: cache.adapter.filesystem
+                default_lifetime: 0        

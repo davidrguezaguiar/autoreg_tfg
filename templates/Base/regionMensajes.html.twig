@@ -1,0 +1,116 @@
+<div class="ui container">
+
+    {% if app.session.flashbag.has('error') %}
+
+        {% for stringMesage in app.session.flashbag.get( 'error' ) %}
+            <div class="ui negative message" style="text-align: justify; padding-right: 2%; overflow-wrap: break-word;">
+                <div class="flash header">
+                    <i class="times circle icon"></i> {{ stringMesage|raw|nl2br }}
+                </div>
+            </div>
+        {% endfor %}
+        {# <div class="mensajesFlash mensajesFlashError" style="margin: 2.5% 35% !important;">
+
+             {% for stringMesage in app.session.flashbag.get( 'error' ) %}
+
+                 <div class="flash-error "  >
+
+                     {{ stringMesage }}
+
+                 </div>
+
+             {% endfor %}
+
+         </div> #}
+    {% endif %}
+
+
+
+    {% if app.session.flashbag.has( 'advertencia' ) %}
+
+        {% for stringMesage in app.session.flashbag.get( 'advertencia') %}
+            <div class="ui warning message" style="text-align: center;padding-right: 2%;">
+                <div class="flash header">
+                    <i class="exclamation triangle icon"></i> {{ stringMesage|nl2br }}
+                </div>
+            </div>
+        {% endfor %}
+        {#   <div class="mensajesFlash mensajesFlashAdvertencia" style="margin: 3% 35% !important;" >
+
+               {% for stringMesage in app.session.flashbag.get( 'advertencia') %}
+
+                   <div class="flash-advertencia ">
+
+                       {{ stringMesage }}
+
+                   </div>
+
+               {% endfor %}
+
+           </div> #}
+    {% endif %}
+
+
+    {% if app.session.flashbag.has('informacion') %}
+
+        {% for stringMesage in app.session.flashbag.get( 'informacion' ) %}
+            <div class="ui positive message" style="text-align: center;padding-right: 2%; margin-top: 2%">
+                <div class="flash header">
+                    <i class="check icon"></i> {{ stringMesage|nl2br }}
+                </div>
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    {#  <div class="mensajesFlash mensajesFlashInformacion" style="margin: 3% 35% !important;">
+
+          {% for stringMesage in app.session.flashbag.get( 'informacion' ) %}
+
+              <div class="flash-informacion ">
+
+                  {{ stringMesage }}
+
+              </div>
+
+          {% endfor %}
+
+      </div>
+  {% endif %}
+
+  {% if app.session.flashbag.has( 'debug' ) %}
+
+      <div class="mensajesFlash mensajesFlashDebug">
+
+          {% for stringMesage in app.session.flashbag.get( 'debug') %}
+
+              <div class="flash-debug ">
+
+                  <pre>
+                      {{ stringMesage }}
+                  </pre>
+
+              </div>
+
+          {% endfor %}
+
+      </div>
+  {% endif %}
+
+  {#{% if form is defined %}
+
+      {% for child in form %}
+
+          {% if  form_errors( child )|length > 0 %}
+              <div class="mensajesFlash mensajesFlashError">
+
+                  <div class="flash-error ">
+
+                      {{ form_errors( child ) }}
+
+                  </div>
+
+              </div>
+          {% endif %}
+      {% endfor %}
+  {% endif %}#}
+</div>

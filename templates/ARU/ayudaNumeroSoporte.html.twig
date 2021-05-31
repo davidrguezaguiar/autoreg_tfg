@@ -1,0 +1,40 @@
+{% extends 'Base/index.html.twig' %}
+{% block body %} 
+    <div class="contenido">
+        <ul><li class="noImage">
+                <div>
+
+                    <p>Le facilitamos a continuación la descripción del número de soporte según el tipo de documento:</p>
+                    <ul>
+                        <li><a href="#CATdni">Documento nacional de identidad</a></li>                        
+                        <li><a href="#CATtarjetaextranjero">Tarjeta de extranjero</a></li>
+                        <li><a href="#CATpermisoresidencia">Permiso de residencia</a></li>
+                        <li><a href="#CATunion">Certificado de registro de ciudadano de la Unión</a></li>
+                    </ul>
+                    
+                    <h2 id="CATdni">Documento nacional de identidad</h2>
+                    <p>Si su documento es un DNI electr&oacute;nico (tarjetas con chip), para el DNI 3.0 el número de soporte aparece debajo del apartado número de soporte y para el DNI 2.0 es el código que aparece debajo del apartado IDESP, tal y como se muestran en las siguientes imágenes.</p>
+                    <p><img src="/images/nSoporteDNI.png" alt="Ayuda soporte DNI" title="Ayuda soporte DNI"/></p>
+                      
+                    
+                    <h2 id="CATtarjetaextranjero">Tarjeta de extranjero</h2>
+                    <p>Si su documento es una tarjeta de extranjero, el número de soporte aparece en el anverso y consta de 8 dígitos precedidos de la letra E. Si tiene menos de esos 8 números tendrá que completarlo a la izquierda con el número 0. Ejemplo: E87654321.</p>                    
+                    <p><img src="/images/nSoporteNIE.png" alt="Ayuda soporte NIE" title="Ayuda soporte NIE"/></p>
+                    
+                    <h2 id="CATpermisoresidencia">Permiso de residencia</h2>
+                    <p>Si su documento es un permiso de residencia, el número de soporte aparece también en el anverso y consta de 8 dígitos precedidos de la letra E. Si tiene menos de esos 8 números tendrá que completarlo a la izquierda con el número 0. Ejemplo: E87654321.</p>
+                    <p><img src="/images/nSoporteResidencia.png" alt="Ayuda soporte permiso de residencia" title="Ayuda soporte NIE"></p>
+                    
+                    <h2 id="CATunion">Certificado de registro de ciudadano de la Unión</h2>
+                    <p>Si el documento es un certificado de registro de ciudadano de la Unión, en el documento consta un número, escriba este número precedido por la letra "C". Si este número tiene menos de 8 dígitos se puede completar con ceros a la izquierda.</p>
+                    <p>Ejemplo: Si su certificado tiene como número de soporte: 1234567, debe indicar C01234567.</p>
+                    <p><img src="/images/nSoporteCiudadanoUE.png" alt="Ayuda soporte certificado" title="Ayuda soporte certificado"></p>
+                    <p>En los certificados más antiguos, tamaño folio, el número de certificado (número de soporte) aparece en el anverso.</p>
+                    <p><img src="/images/nSoporteCertificado.png" alt="Ayuda soporte certificado" title="Ayuda soporte certificado"></p>
+
+                </div>
+            </li>
+        </ul>
+    </div>
+
+{% endblock %}

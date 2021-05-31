@@ -1,0 +1,33 @@
+doctrine:
+    dbal:
+        #default_connection: 
+        connections:
+            _:
+                driver_class: "%driver_class%"
+                driver:   "%database_driver%"
+                host:     "%database_host%"
+                port:     "%database_port%"
+                dbname:   "%database_name%"
+                user:     "%database_user%"
+                password: "%database_password%"
+                service:  "%database_service%"
+                charset:  UTF8
+            _:
+                driver_class: "%driver_class2%"
+                driver:   "%database_driver2%"
+                host:     "%database_host2%"
+                port:     "%database_port2%"
+                dbname:   "%database_name2%"
+                user:     "%database_user2%"
+                password: "%database_password2%"
+                service:  "%database_service2%"
+                charset:  UTF8
+                
+    orm:
+        auto_generate_proxy_classes: '%kernel.debug%'
+        default_entity_manager: _connection
+        entity_managers:
+          #_connection:
+          
+          #_connection:
+          

@@ -1,0 +1,35 @@
+parameters:
+    database_driver: oci8
+    driver_class: App\DBAL\DriverULPGC
+    database_host: ~
+    database_port: 1521
+    #database_name: 
+    #database_user: 
+    database_service: true
+    #database_password: 
+    mailer_transport: smtp
+    mailer_host: 127.0.0.1
+    mailer_user: null
+    mailer_password: null
+    locale: en
+    #secret: 
+
+    #Bundle Comun Registros especiales
+    database_driver2: oci8
+    driver_class2: App\DBAL\DriverULPGC
+    database_host2: ~
+    database_port2: 1521
+    #database_name2: 
+    #database_user2: 
+    database_service2: true
+    #database_password2: 
+    mailer_transport2: smtp
+    mailer_host2: 127.0.0.1
+    mailer_user2: null
+    mailer_password2: null
+    locale2: en
+    #secret2: 
+    
+framework:
+    session:
+        cookie_path: ARU

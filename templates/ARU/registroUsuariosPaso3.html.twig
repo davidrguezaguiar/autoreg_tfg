@@ -1,0 +1,249 @@
+{% extends 'Base/index.html.twig' %}
+
+{% block body %}  
+
+    <div class="ui container">
+
+        <div style="padding-bottom: 2em; margin-bottom: 1em;">                          
+            Se ha identificado como: <strong>{{ datosSesionRegistro.nombreCompleto }}</strong>, {% if datosSesionRegistro.sexo == 'F'%}nacida{% else %}nacido{% endif %} el <strong>{{ datosSesionRegistro.fechaNacimiento }}</strong> y sexo <strong>{% if datosSesionRegistro.sexo == 'M'%}hombre{% elseif datosSesionRegistro.sexo == 'F' %}mujer{% endif %}.</strong> Para finalizar el registro necesitamos que nos proporcione estos datos
+        </div>    
+
+        {# Grid responsive con adaptacion de columnas a filas automaticamente #}
+        <form class="ui equal width form" name="formDatosUsuario3" id="formDatosUsuario3" method="POST" action="{{ path('_registro_usuarios_paso3') }}">              
+
+            <div id="controlPassword" style="padding-bottom: 2em; margin-bottom: 1em;">
+
+                {#Codigo de verificacion #}
+                <div class="required field" id="fieldCodigoVerificacion">
+                    <label for="codigoVerificacion" id="labelCodigoVerificacion"> C&oacute;digo de verificaci&oacute;n / Verification code:</label>
+                    <div class="ui input">
+                        <input name="codigoVerificacion" type="text" size="10" id="codigoVerificacion" /> 
+                    </div>
+                </div>
+
+                {#Password #}
+                <div class="required field" id="fieldPassword1"  >
+                    <label for="ULPGCPassWord_ulpgcpassword_first" id="labelULPGCPassWord_ulpgcpassword_first"> Contrase&ntilde;a / Password:</label>
+                    <div class="ui input">
+                        <input name="ULPGCPassWord_ulpgcpassword_first" type="password" size="40" required="required" id="ULPGCPassWord_ulpgcpassword_first" placeholder=" Contrase&ntilde;a / Password"> 
+                    </div>
+                </div>                                 
+               
+                {#Verificación de password #}
+                <div class="required field"  id="fieldPassword2">
+                    <label for="ULPGCPassWord_ulpgcpassword_second" id="labelULPGCPassWord_ulpgcpassword_second">Repetir Contrase&ntilde;a / Password (Confirmation):</label>
+                    <div class="ui input">
+                      <input name="ULPGCPassWord_ulpgcpassword_second" type="password" size="40" required="required" id="ULPGCPassWord_ulpgcpassword_second" placeholder=" Repetir Contrase&ntilde;a / Password (Confirmation)">
+                    </div>
+                </div>                   
+                
+                {#Comprobacion de las contraseñas#}
+                <div id="pswd_info" style="display: none;"><br>
+                    <h4><center>Su contraseña debe:</center></h4>
+                    <ul>
+                        <li id="letter"  class="invalid">Incluir <strong>una letra en minúsculas</strong></li>
+                        <li id="capital" class="invalid">Incluir <strong>una letra en mayúsculas</strong></li>
+                        <li id="number"  class="invalid">Incluir <strong>un número</strong></li>
+                        <li id="symbol"  class="invalid">Incluir <strong>uno de estos símbolos _ - * / : ; . ,</strong></li>
+                        <li id="length1" class="invalid">Ser <strong>mayor de 7 caracteres</strong></li>
+                        <li id="length2" class="invalid">Ser <strong>menor de 16 caracteres</strong></li>
+                        <li id="format1" class="invalid">Debe tener un <strong>formato correcto</strong></li>
+                    </ul>
+                    <center><small>Su contraseña <strong>no puede incluir</strong> la ñ, Ñ, tildes, diéresis o simbolos no permitidos</small></center>
+                </div>                  
+                
+                <div class="ui vertical  segment" style="border-bottom: none;">
+                    {# Mensajes de error del formulario #}
+                    <div id="mensajesError" class="ui error message">                                                                      
+                    </div>
+                </div>                        
+
+            </div>                                      
+
+            {# botones #}                
+            <div class="fields">
+                <div class="five wide field">
+                    <button id="volver" class="ui button" name="volver" value="volverPaso3" type="button">Volver</button>
+                </div>
+
+                <div class="field">                    
+                    <button id="botonSubmit" class="ui submit button" name="enviar" value="enviarPaso3" type="submit">Finalizar registro</button>
+                    <input type="hidden" id="accionBT" name="accion" value ="enviarPaso3"/>                    
+                </div>
+            </div>      
+
+            {# Control CSRF y AJAX PINO #}
+            <input type="hidden" id="token" name="token" value="{{ csrf_token('aru-form') }}"/>
+
+            <input disabled="disabled" type="hidden" id="urlcomprobarpaso3" name="urlcomprobarpaso3" value="{{ path('_registro_usuarios_comprobar_Paso3') }}">            
+            <input disabled="disabled" type="hidden" id="urlidentificacion" name="urlidentificacion" value="{{ path('_registro_usuarios_identificacion') }}">
+            <input disabled="disabled" type="hidden" id="urlcodigoverificacion" name="urlcodigoverificacion" value="{{ path('_registro_usuarios_codigo_verificacion') }}">
+            <input disabled="disabled" type="hidden" id="urlcomprobarverificacion" name="urlcomprobarverificacion" value="{{ path('_registro_usuarios_comprobar_codigo_verificacion') }}">
+            <input disabled="disabled" type="hidden" id="urlcodigo" name="urlcodigo" value="{{ path('_registro_usuarios_captcha') }}">                          
+            
+        </form>         
+
+    </div>            
+
+{% endblock %}
+
+
+{# JAVA SCRIPT #}
+{% block js %}
+    <script type="text/javascript" >
+
+        {# Activa los checkbox , select (dropdown) de semantic #}
+            $('.ui.radio.checkbox').checkbox();
+            $('.ui.checkbox').checkbox();
+            $('.ui.dropdown').dropdown();
+
+            $('#volver').click(function () {
+                $('#accionBT').val('volverPaso3');
+                document.getElementById("formDatosUsuario3").submit();
+            });
+
+            $('#botonSubmit').click(function () {
+                event.preventDefault();
+                $('#accionBT').val('enviarPaso3');
+                
+        {# Se lanza primero el validate para que el usuario pueda ver los errores #}                
+                $('#formDatosUsuario3').form('validate form');
+                
+        {# Si el formulario es válido, se lanza la función de comprobación del Paso3 #}
+                if ($('#formDatosUsuario3').form('is valid')) {
+                    $(window).scrollTop(0);
+                    $('#spinnerEnviando').addClass('active');                    
+                    comprobarContraseñas();
+                };
+            });
+
+        {# Control de validacion #}
+            $('#formDatosUsuario3').form({
+
+                debug: true,
+                verbose: true,
+                on: 'submit',
+                inline: false,
+                templates: {
+                    error: function (errores) {
+                        {# En caso de que se produzcan errores de validación en el formulario, se fuerza a mostrar el div de errores #}
+                        document.getElementById('mensajesError').style.display = "block";
+                        $('#mensajesError').show();                                                 
+                        
+                        var html = '<label>Revise los siguientes errores:</label><ul class="list">';
+                        $.each(errores, function (index, value) {
+                            html += '<li>' + value + '</li>';
+                        }),
+                                html += '</ul>';
+                        return $(html);
+                    },
+                },
+                fields: {
+
+                    codigoValidacion: {
+                        identifier: 'codigoVerificacion',
+                        rules: [
+                            {
+                                type: 'empty',
+                                prompt: 'Debe indicar el c\xf3digo de verificaci\xf3n que ha recibdo por correo electr\xf3nico.'
+                            }
+                        ]
+                    },
+                    password1: {
+                        identifier: 'ULPGCPassWord_ulpgcpassword_first',
+                        rules: [
+                            {
+                                type: 'empty',
+                                prompt: 'Debe indicar una contraseña.'
+                            }
+                        ]
+                    },
+                    password2: {
+                        identifier: 'ULPGCPassWord_ulpgcpassword_second',
+                        rules: [
+                            {
+                                type: 'empty',
+                                prompt: 'Debe confirmar la contraseña.'
+                            }
+                        ]
+                    }
+
+                }});
+    </script>
+
+    <script  defer src="{{ asset('js/aruservicios.js') }}"></script>
+{% endblock %}
+
+
+{% block css %}
+    <style type="text/css"> 
+        
+        
+        #controlPassword {
+            position:relative;
+        }
+        
+        #pswd_info {
+            z-index: 100;
+            display:none;
+            position:absolute;  
+            top: 12em;
+            left: 12em;            
+            margin-left: auto;
+            margin-right: auto;
+            width:310px;
+            padding:10px;
+            background:#fefefe;
+            font-size:.875em;
+            border-radius:20px;
+            box-shadow:0 1px 3px #ccc;
+            border:1px solid #ddd;
+        }
+
+
+        #pswd_info h4 {
+            margin:0 0 10px 0;
+            padding:0;
+            font-weight:normal;
+        }
+        
+        #ULPGCPassWord_ulpgcpassword_first {
+            padding-left: 25px;
+            margin: 5px 0;
+        }
+        
+        #ULPGCPassWord_ulpgcpassword_second {
+            padding-left: 25px;
+            margin: 5px 0;
+        }        
+        
+        .valid {
+            background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAQCAYAAAAWGF8bAAAABmJLR0QA/wD/AP+gvaeTAAAACXBIWXMAALiMAAC4jAHM9rsvAAAB1klEQVQ4y62UQUhTcRzHv++9lkvsKYNO1joNb4O6hEKHAhWtQ2C3rRTLzpHooeneZGyKK4yy7GBCvYQOFYSgqIimEAydMRC8FHhpU1jhNo3n29v7dpinJa32+sHv8vv/vh9+P/6/30+ARSNZk/qZumaYRoPjhOOxVdjFpa2l9VsfOlk/Xs/UfuqTFVjH0+joD+eIk/CB/kU/01r6ZrmwG+GVsFYZqiQCYO9cDw3TuEfy2D/DdEO/OvF5gtKARCig950nR3Ko3Mra1PgrIgDiPuh97yHJsb8RniNZVwwbjT7J2II2wgc2v25mMpt8Q1L8I2zvIKu8iI3nnq+OZXN5fYNkG8nzalxNyoMyoYC1D2s5/3V+k+SpktVtZ7dXToarCB+IANi34OPy1keeHXESCigOiOye7dZIthylF4oDpmlemPky/bZr6s7pRCYBGIcPEgARcDlcWOtanZTt1e2CIOSL9b/1L4pitNV1xRtpHN6RJAmwoeAiAB140BTZl+3VwaNgpT7mdu9cj47+QuvoBy+/vESSj6xsw5T7mZvwF8Yk9m2NJI9bAcrridh3KGDrZAt3td2g1WMCLaddDy2HqMZVM2/mz+A/nKeKtJa+m9EyHpJSqfxfuRoKRDmmmkEAAAAASUVORK5CYII=) no-repeat 0 50% !important;
+            padding-left:22px;
+            line-height:24px;
+            color:#3a7d34;
+        }
+        
+        .invalid {
+            background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAQCAYAAAAWGF8bAAAABmJLR0QA/wD/AP+gvaeTAAAACXBIWXMAAAsTAAALEwEAmpwYAAACEElEQVQ4y52Sv0tbURiGv5Nbk5Q0xg62CBpph6g4WGgNiHHqksUiFIQuEgcXCViLIA7SIgRL/oC61CLSioOrQ0DjUhRtl1CHSLFeilhbUkiwOef+OPe+Hey1RqPRPHCGc17Ocz6+7zAqAwCXtb0dYIpyz9XW9oUxZp7Kbtj7+3eoWHzKvN561tw8zRgTdBEA3NbW1gt9cvK3PjgIub7+BgD7lylyYyOhT0zkeGMjtL4+AIjSZVi7u8OipwecCJwIorMTVqEwQkRk5/NJEQ6DE6FIBHNp6avz2IXIbPadI+NE4C4XtFjsO4BpEY0eOed6PA5LVR9RJaxcLqRPTR2dlgq/H6K3F7ym5njf0QFzZeUVAIWugnVw8EQbGCiRniy3G/r4+GcAd+k6yMPDZ1osJs8JAwEpC4WXVA0A4iISKRX6fDDm5lIAfFVJzeXln2erFF1dkJnMcMUJl6kwqvX3o1wv9dFRDiB8HVlQTya/OYKi13tuOMbsrArg1lVkt42FhVVeV3d8uakJMpVa08bGjBKpxwO5s7NWSeaR6fRb0dICrigQDQ22MT//CUA9gOe8vb20n62tpg2MXCa8KRcXP2jd3T+0oaGM3Nt7DcB/8p02Nz9yRfkvra2FkU6/r1RlAMBDAMGzmZ3PPzASCc5DIYhIBMbMTBZAyMlZNV/JUtX7JMRjsu1fFAyuKn7/Hyf7Cx0tlGUfJ2qwAAAAAElFTkSuQmCC) no-repeat 0 50% !important;
+            padding-left:22px;
+            line-height:24px;
+            color:#ec3f41;
+        }
+
+        .valid_pwd {
+            background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAQCAYAAAAWGF8bAAAABmJLR0QA/wD/AP+gvaeTAAAACXBIWXMAALiMAAC4jAHM9rsvAAAB1klEQVQ4y62UQUhTcRzHv++9lkvsKYNO1joNb4O6hEKHAhWtQ2C3rRTLzpHooeneZGyKK4yy7GBCvYQOFYSgqIimEAydMRC8FHhpU1jhNo3n29v7dpinJa32+sHv8vv/vh9+P/6/30+ARSNZk/qZumaYRoPjhOOxVdjFpa2l9VsfOlk/Xs/UfuqTFVjH0+joD+eIk/CB/kU/01r6ZrmwG+GVsFYZqiQCYO9cDw3TuEfy2D/DdEO/OvF5gtKARCig950nR3Ko3Mra1PgrIgDiPuh97yHJsb8RniNZVwwbjT7J2II2wgc2v25mMpt8Q1L8I2zvIKu8iI3nnq+OZXN5fYNkG8nzalxNyoMyoYC1D2s5/3V+k+SpktVtZ7dXToarCB+IANi34OPy1keeHXESCigOiOye7dZIthylF4oDpmlemPky/bZr6s7pRCYBGIcPEgARcDlcWOtanZTt1e2CIOSL9b/1L4pitNV1xRtpHN6RJAmwoeAiAB140BTZl+3VwaNgpT7mdu9cj47+QuvoBy+/vESSj6xsw5T7mZvwF8Yk9m2NJI9bAcrridh3KGDrZAt3td2g1WMCLaddDy2HqMZVM2/mz+A/nKeKtJa+m9EyHpJSqfxfuRoKRDmmmkEAAAAASUVORK5CYII=) no-repeat 0 50% !important;
+            padding-left:22px;
+            line-height:24px;
+            color:#3a7d34;
+        }
+
+        .invalid_pwd {
+            background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAQCAYAAAAWGF8bAAAABmJLR0QA/wD/AP+gvaeTAAAACXBIWXMAAAsTAAALEwEAmpwYAAACEElEQVQ4y52Sv0tbURiGv5Nbk5Q0xg62CBpph6g4WGgNiHHqksUiFIQuEgcXCViLIA7SIgRL/oC61CLSioOrQ0DjUhRtl1CHSLFeilhbUkiwOef+OPe+Hey1RqPRPHCGc17Ocz6+7zAqAwCXtb0dYIpyz9XW9oUxZp7Kbtj7+3eoWHzKvN561tw8zRgTdBEA3NbW1gt9cvK3PjgIub7+BgD7lylyYyOhT0zkeGMjtL4+AIjSZVi7u8OipwecCJwIorMTVqEwQkRk5/NJEQ6DE6FIBHNp6avz2IXIbPadI+NE4C4XtFjsO4BpEY0eOed6PA5LVR9RJaxcLqRPTR2dlgq/H6K3F7ym5njf0QFzZeUVAIWugnVw8EQbGCiRniy3G/r4+GcAd+k6yMPDZ1osJs8JAwEpC4WXVA0A4iISKRX6fDDm5lIAfFVJzeXln2erFF1dkJnMcMUJl6kwqvX3o1wv9dFRDiB8HVlQTya/OYKi13tuOMbsrArg1lVkt42FhVVeV3d8uakJMpVa08bGjBKpxwO5s7NWSeaR6fRb0dICrigQDQ22MT//CUA9gOe8vb20n62tpg2MXCa8KRcXP2jd3T+0oaGM3Nt7DcB/8p02Nz9yRfkvra2FkU6/r1RlAMBDAMGzmZ3PPzASCc5DIYhIBMbMTBZAyMlZNV/JUtX7JMRjsu1fFAyuKn7/Hyf7Cx0tlGUfJ2qwAAAAAElFTkSuQmCC) no-repeat 0 50% !important;
+            padding-left:22px;
+            line-height:24px;
+            color:#ec3f41;
+        }
+
+    </style> 
+{% endblock %}

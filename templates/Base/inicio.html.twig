@@ -1,0 +1,22 @@
+{% extends 'Base/index.html.twig' %}
+
+{% block body %}
+    
+    <link href="{{ asset('build/ulpgc.css') }}">
+
+    {% if accesoPermitido %}
+        <div class="centrado">
+            <div class="h1 ui dividing header">Cat&aacute;logo de servicios (desarrollo)</div>
+            {# Para cuadrar el grid inferior #}
+            <div class="ui container">
+                <div class="ui segment" style="margin-bottom: 5em;padding-left: 5%;text-align: left;">
+                    <hr style="border: 1px solid rgba(11, 99, 184, 0.4);"/>
+                    <ul>
+                        <li> <a href="{{ path("_registro_usuarios_paso1") }}">Registro de usuarios</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+
+{% endblock %}  

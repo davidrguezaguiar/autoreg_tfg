@@ -1,0 +1,13 @@
+parameters:
+
+    #Datos usados para la firma automatica de documentos
+   # uriNotificacionWSFirma: '/NombreProyecto/public/bandejafirma/notificacion'
+   # puertoNotificacionWSFirma: '80'
+   # protocoloNotificacionWSFirma: 'http'
+   # sistemaNotificacionWSFirma: '%nombre_app_suplantada%'
+   # esqueletoAvisoActualizacionWSFirma: 'usuario:%%s##protocolo:%%s##ip:%%s##puerto:%%s##url:%%s##remitente:%%s##sistema:%%s##documento:%%s'
+    #Poner el nombre del fichero, el directorio se configura en services.yaml ( por defecto es config/cert ) 
+   # autoridadCertificadoraWSFirma: 'AC_Administracion_Publica_SHA256.crt'
+   # usarCAFirma: true
+    #ciphersWSFirma: 'ALL!EXPORT!EXPORT40!EXPORT56!aNULL!LOW!RC4'
+    

@@ -1,0 +1,12 @@
+{% extends 'Base/index.html.twig' %}
+{% set subtitulo = 'Entrar como' %}
+
+    {% block body %}
+        {% if form is defined and form is not empty %}
+            {{ form_start(form) }}
+            {{ form_errors(form) }}
+            {{ form_row(form.dni) }}<br/>
+            {{ form_row(form.save) }}
+            {{ form_end(form) }}
+        {% endif %}
+    {% endblock %}

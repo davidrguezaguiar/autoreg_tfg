@@ -1,0 +1,14 @@
+parameters:
+    correoServicioRetribucion: david.rodriguez@ulpgc.es
+    # Control de quien puede acceder a la web de desarrollo
+    # Si se pone la etiqueta ['todos': *] es abierto    
+    depuracion:
+        'DAVIDC': x.x.x.x
+        'DAVIDT': x.x.x.x
+        'DAVIDV': x.x.x.x
+        'davidServicioInformatica': x.x.x.x
+        'REDSARA': x.x.x.x
+        'EQUIPOSREDSARA': x.x.x.x
+        'servidoresSI': x.x.x.x
+        'todos': x.x.x.x        
+    

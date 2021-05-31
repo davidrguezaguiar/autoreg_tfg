@@ -1,0 +1,226 @@
+{% extends 'Base/index.html.twig' %}
+
+{% block body %}  
+
+    <div class="ui container">
+
+        <div class="ui ignored info message">
+            <i class="info circle icon"></i>{{mensajeBienvenida | raw}}
+        </div>
+        {# Grid responsive con adaptacion de columnas a filas automaticamente #}
+        <form class="ui equal width form" name="formDatosUsuario1" id="formDatosUsuario1" method="POST" action="{{ path('_registro_usuarios_paso1') }}">  
+
+            <h2 class="ui dividing header">Datos del solicitante<a class="anchor" id="variations"></a></h2>
+            <div style="padding-bottom: 2em; margin-bottom: 1em;">
+
+                {#Documento identificativo #}
+                <div class="required field" id="fieldDocumentoIdentificativo">
+                    <label for="documentoIdentificativo" id="labelDocumentoIdentificativo"> Documento identificativo / Identification document (DNI/NIE/Tarjeta de residencia/Card of residence)</label>
+                    <div class="ui input">
+                        <input name="documentoIdentificativo" type="text" size="40" id="documentoIdentificativo" value="{{ datosSesionRegistro.identidad }}" placeholder=""/> 
+                    </div>
+                </div>
+                
+                {# Numero soporte y Fecha caducidad documento #}
+                <div class="required field" id="fieldSoporteFecha">
+                    <label>Validaci&oacute;n del documento identificativo, indique n&uacute;mero de soporte y fecha de caducidad / Validation of the identification document, indicate support number and expiration date:</label>
+                    <div class="fields" style="margin-top:1em;">
+
+                        <div class="three wide required field inline field">
+                            <label id="ValidacionDocumentacionLabelNS" for="numeroSoporte">N&uacute;mero de soporte / Support number</label>
+                        </div> 
+                        <div class="three wide  field inline field">
+                            <input size="12"  id="inputValidacionSoporteDocumento" placeholder="ABC123456" type="text" value="{{ datosSesionRegistro.soporteID }}" name="validacionSoporteDocumento" title="Introduzca el número de soporte con formato ABC123456 o A12345678" minlength="9" maxlength="9">
+                        </div>  
+                        <div class="ten wide field inline field" style="margin-top:1em;">
+                            <a href="{{ path("_ayudaNumeroSoporte") }}" target="_blank" title="Información de donde obtener el número de soporte">¿Qué es el número de soporte? / What is the support number?</a> 
+                        </div> 
+
+                    </div>
+ 
+                    <div class="fields">
+
+                        <div class="three wide required field inline field">
+                            <label id="ValidacionDocumentacionLabelFC" for="fechaCaducidad">Fecha de caducidad / Expiration date</label>
+                        </div> 
+                        <div class="three wide field inline field">
+                            <input size="12"  id="inputValidacionFechaDocumento" placeholder="DD/MM/YYYY" type="text" value="{{ datosSesionRegistro.fechaID }}" name="validacionFechaDocumento" title="Introduzca la fecha de caducidad de su documento con formato DD/MM/YYYY" minlength="10" maxlength="10">
+                        </div>  
+                        <div class="ten wide field inline field" style="margin-top:1em;"></div> 
+
+                    </div>
+                       
+                </div>
+            <div class="field">            
+           <label for="documentoIdentificativoPasaporte" id="documentoIdentificativoPasaporte" style="margin-top:2em;"><strong>Si solo puede identificarse con Pasaporte pulse <a href="#">aqu&iacute;</a> / If you only have a passport as identification document, press <a href="#">here</a></strong>   </label>  
+           </div>
+            </div>
+
+            <div class="ui vertical  segment" style="border-bottom: none;">                    
+                {# Control de robots #}
+                <div class="required field" id="fieldImagenRobot" >
+                    <label for="imagenRobot" id="labelCodigoVerificacion"> No soy un robot / I am not a robot:</label>
+                    <div class="ui input">
+                        <input autocomplete="off" id="imagenRobot" name="imagenRobot" type="text" size="10" id="imagenRobot" /> 
+
+                        <div id="imgImagenRobot" class="ui basic label">
+                            <img id="imagenCaptcha"/>
+                            <i id="refrescarImagen" style="margin-left:1em;" class="refresh link icon"></i>
+                        </div>
+
+                    </div>
+                </div>
+
+                {# Mensajes de error del formulario #}
+                <div id="mensajesError" class="ui error message">
+
+                </div>
+                
+            </div>       
+
+            {# Aviso de conexion a la interoperativa de administraciones #}
+            {% include 'ARU/oposicionPID.html.twig' %}   
+                        
+            {# botones #}                
+            <div class="fields">
+                <div class="five wide field">
+                    <button id="cancelar" class="ui button" name="cancelar" value="cancelar" type="button">Cancelar</button>
+                </div>
+                
+                <div class="field">                    
+                    <button id="botonSubmit" class="ui submit button" name="enviar" value="enviarPaso1" type="submit">Continuar</button>
+                    <input type="hidden" id="accionBT" name="accion" value ="enviarPaso1"/>                    
+                </div>
+            </div>                 
+
+            {# Control CSRF y AJAX PINO #}
+            <input type="hidden" id="token" name="token" value="{{ csrf_token('aru-form') }}"/>
+
+            <input disabled="disabled" type="hidden" id="urlcomprobarpaso1" name="urlcomprobarpaso1" value="{{ path('_registro_usuarios_comprobar_Paso1') }}"> 
+            <input disabled="disabled" type="hidden" id="urlidentificacion" name="urlidentificacion" value="{{ path('_registro_usuarios_identificacion') }}">
+            <input disabled="disabled" type="hidden" id="urlcodigoverificacion" name="urlcodigoverificacion" value="{{ path('_registro_usuarios_codigo_verificacion') }}">
+            <input disabled="disabled" type="hidden" id="urlcomprobarverificacion" name="urlcodigoverificacion" value="{{ path('_registro_usuarios_comprobar_codigo_verificacion') }}">
+            <input disabled="disabled" type="hidden" id="urlcodigo" name="urlcodigoverificacion" value="{{ path('_registro_usuarios_captcha') }}">
+
+        </form>
+
+    </div>            
+
+{% endblock %}
+
+
+{# JAVA SCRIPT #}
+{% block js %}
+    <script type="text/javascript" >       
+        
+        {# Activa los checkbox , select (dropdown) de semantic #}
+            $('.ui.radio.checkbox').checkbox();
+            $('.ui.checkbox').checkbox();
+            $('.ui.dropdown').dropdown();     
+            
+            $('#cancelar').click(function () {
+                $('#accionBT').val('cancelar');
+                document.getElementById("formDatosUsuario1").submit();
+            });
+        {# Se comprueba el formulario antes #}
+            $('#botonSubmit').click(function () {
+                 event.preventDefault();                 
+                 $('#accionBT').val('enviarPaso1');
+                 
+        {# Se lanza primero el validate para que el usuario pueda ver los errores #}                 
+                 $('#formDatosUsuario1').form('validate form');
+                 
+        {# Si el formulario es válido, se lanza la función de comprobación del Paso1 #}                 
+                if ( $('#formDatosUsuario1').form('is valid') ){ 
+                    $(window).scrollTop(0); 
+                    $('#spinnerEnviando').addClass('active');
+                    ValidarPaso1();
+                };                   
+            });                       
+
+        {# Control de validacion #}
+            $('#formDatosUsuario1').form({
+                
+                debug: true,
+                verbose: true,
+                on: 'submit',
+                inline: false,
+                templates: {
+                    error: function (errores) {
+                        {# En caso de que se produzcan errores de validación en el formulario, se fuerza a mostrar el div de errores #}
+                        document.getElementById('mensajesError').style.display = "block";
+                        $('#mensajesError').show();                         
+                        
+                        var html = '<label>Revise los siguientes errores:</label><ul class="list">';
+                        $.each(errores, function (index, value) {
+                            html += '<li>' + value + '</li>';
+                        }),
+                    html += '</ul>';
+                    return $(html);
+                    },
+                },
+                fields: {
+
+                    identificacion: {
+                        identifier: 'documentoIdentificativo',
+                        rules: [
+                            {
+                                type: 'empty',
+                                prompt: 'Debe indicar un documento v\xe1lido.'
+                            },
+                            {
+                                type: 'minLength[4]',
+                                prompt: 'Debe indicar un documento v\xe1lido.'
+                            },
+                            {
+                                type: 'maxLength[25]',
+                                prompt: 'Debe indicar un documento v\xe1lido.'
+                            }
+                        ]
+                    },
+                    soporteDocumento: {
+                        identifier: 'validacionSoporteDocumento',
+                        rules: [
+                            {
+                                type: 'empty',
+                                prompt: 'Debe indicar el n\xfamero de soporte del documento identificativo.',
+                            }
+                        ]
+                    },                     
+                    fechaDocumento: {
+                        identifier: 'validacionFechaDocumento',
+                        rules: [
+                            {
+                                type: 'empty',
+                                prompt: 'Debe indicar la fecha de caducidad del documento identificativo.',
+                            }
+                        ]
+                    },   
+                    codigoCaptcha: {
+                        identifier: 'imagenRobot',
+                        rules: [
+                            {
+                                type: 'empty',
+                                prompt: 'Debe indicar el c\xf3digo Captcha para proceder con su validaci\xf3n.',
+                            }
+                        ]
+                    },                      
+                    lopd: {
+                          identifier: 'lopd',
+                          rules: [
+                              {
+                                type: 'checked',
+                                prompt: 'Debe indicar que ha le\xEDdo la informaci\xf3n sobre protecci\xf3n de datos y aceptar las condiciones.'
+                              }
+                          ]
+                      }                        
+
+                },
+                onSuccess: function () {                     
+
+                }
+            });
+    </script> 
+
+    <script src="{{ asset('js/aruservicios.js') }}" defer></script>
+{% endblock %}

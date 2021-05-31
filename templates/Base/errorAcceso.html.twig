@@ -1,0 +1,15 @@
+{% extends 'Base/index.html.twig' %}
+
+{% block body %}
+    <div class="centrado">
+
+        <img src="/images/locked.png.png" alt="Estado del firewall" title="Estado del firewall" style="width: 150px;" />
+        <h2>Acceso Restringido</h2>
+        <br>
+        {% if app.user  %}
+            <h3>Sentimos comunicarle que no tiene permisos para acceder a esta p&aacute;gina</h3>
+        {% else %}
+            <h3>Necesita estar autenticado para acceder al contenido de esta p&aacute;gina. Utilice sus credenciales para acceder a MIULPGC y vuelva a intentarlo</h3>
+        {% endif %}
+    </div>
+{% endblock %}

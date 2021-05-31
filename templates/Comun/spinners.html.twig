@@ -1,0 +1,36 @@
+{#Los spinners se han modificado añadiendo la posicion fixed para que queden en el centro de la web y se les ha añadido la clase
+de semantic "ui inverted dimmer" para que se quede inoperativo el contenido mientras esté el spinner mostrado y están display none por
+defecto, ya que todos los spinner se cargan de manera oculta por defecto. Para mostrar uno sólo hay que llamarlo por js por su id y 
+hacer un  $('#indicadorCorporativo').show(); por defecto vamos a coger este que es con el anillo y el logo de la ulpgc con fondo blanco, 
+no usar los otros 2 para tener la web homogénea#}
+
+{# Indicador de carga básico #}
+<div class="ulpgcds-loader ui active inverted dimmer" id="carga_basico" role="alert" aria-busy="true" 
+    style="position: fixed; z-index: 120; display: none">
+    <svg viewBox="0 0 50 50" class="spinner-1" style="position: fixed;">
+    <circle class="ring" cx="25" cy="25" r="22.5" />
+    <circle class="line" cx="25" cy="25" r="22.5" />
+    </svg>
+</div>
+
+{# Indicador de carga corporativo, usar este de momento #}
+<div class="ulpgcds-loader ui active inverted dimmer" id="carga_corporativo" role="alert" aria-busy="true" 
+    style="position: fixed; z-index: 120; display: none;">
+    <svg viewBox="0 0 50 50" class="spinner-2" style="position: fixed;" >
+    <circle class="line" cx="25" cy="25" r="22.5" />
+    </svg>
+    <svg viewBox="0 0 50 50" class="ulpgcds-loader__logo" style="position: fixed;">
+    <path id="ulpgc-logo" class="color-logo" d="M30.349,9.034c7.141,0,10.711,5.342,10.711,11.573c0.089,2.843,0,4.46,0,8.013h-2.678c0,0-2.353,5.076,1.785,8.012c0,0.178-15.262,5.021-18.745-9.793c0,0.177,7.891,4.982,12.496,3.561c0,0,1.795-6.645,0.461-10.665c-1.727-5.203-9.349-3.744-12.952-1.655C12.472,23.273,9.633,31.325,6.248,37.523C6.248,37.523,8.47,9.034,30.349,9.034"/>
+    </svg>
+</div> 
+
+{# Indicador de carga corporativo fondo azul #}
+<div class="ulpgcds-loader ui active inverted dimmer"  id="carga_corporativo_azul" role="alert" aria-busy="true" 
+    style="position: fixed; z-index: 120; display: none">
+    <svg viewBox="0 0 50 50" class="spinner-2" style="position: fixed;">
+    <circle class="line" cx="25" cy="25" r="22.5" />
+    </svg>  
+    <svg viewBox="0 0 50 50" class="ulpgcds-loader__logo ulpgcds-loader__logo--reverse" style="position: fixed;">
+    <path id="ulpgc-logo2" class="color-logo" d="M30.349,9.034c7.141,0,10.711,5.342,10.711,11.573c0.089,2.843,0,4.46,0,8.013h-2.678c0,0-2.353,5.076,1.785,8.012c0,0.178-15.262,5.021-18.745-9.793c0,0.177,7.891,4.982,12.496,3.561c0,0,1.795-6.645,0.461-10.665c-1.727-5.203-9.349-3.744-12.952-1.655C12.472,23.273,9.633,31.325,6.248,37.523C6.248,37.523,8.47,9.034,30.349,9.034"/>
+    </svg>
+</div> 

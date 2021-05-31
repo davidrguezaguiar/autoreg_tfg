@@ -1,0 +1,50 @@
+{% extends 'Base/inicio.html.twig' %}
+
+{% block contenido %}
+    <div class="ui container">
+
+        <form  class="ui equal width form"  action="{{ path(actionForm) }}" method="POST" enctype="multipart/form-data">
+
+
+             <div class="field">
+                    <label for="metodoBD"> Método a usar </label>
+                    <input type="text" name="metodoBD" value="" />
+
+                </div>
+             <div class="field">
+                    <label for="parametrosBD"> Parametros a pasar a la función (Separados por punto y coma ';')</label>
+                    <input type="text" name="parametrosBD" value="" />
+
+                </div>
+            
+            <br/>
+            <input type="submit" name="Enviar" title="Consultar" />
+
+        </form>
+
+        <div class="ui segment">
+            <p> Método: <strong>{{ metodoBD }}</strong> </p>
+            
+            <p> Parametros:  {{ dump(parametrosBD) }}</p>
+        </div>
+                 
+        <div class="ui segment">
+            <label> Resultados obtenidos</label>
+            <p> {{ dump(respuesta) }} </p>
+        </div>
+        
+        {% if error is defined %}
+        <div class="ui error message">
+            <label> Ha ocurrido un error </label>
+            <p>{{ error }}</p>
+        </div>
+        {% endif %}
+        
+        <div class="ui segment">
+            <label> Metodos disponibles </label>
+            <p>
+                {{ dump(metodosDisponibles) }}
+            </p>
+        </div>
+    </div>
+{% endblock %}

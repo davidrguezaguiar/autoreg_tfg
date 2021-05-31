@@ -1,0 +1,227 @@
+{% extends 'Base/index.html.twig' %} 
+
+{% block body %}  
+
+    <div class="ui container">
+
+        <div style="padding-bottom: 2em; margin-bottom: 1em;">                          
+            Se ha identificado como: <strong>{{ datosSesionRegistro.nombreCompleto }}</strong>, {% if datosSesionRegistro.sexo == 'F'%}nacida{% else %}nacido{% endif %} el <strong>{{ datosSesionRegistro.fechaNacimiento }}</strong> y sexo <strong>{% if datosSesionRegistro.sexo == 'M'%}hombre{% elseif datosSesionRegistro.sexo == 'F' %}mujer{% endif %}.</strong> Para finalizar el registro necesitamos que nos proporcione estos datos
+        </div>     
+
+        {# Grid responsive con adaptacion de columnas a filas automaticamente #}
+        <form class="ui equal width form" name="formDatosUsuario2" id="formDatosUsuario2" method="POST" action="{{ path('_registro_usuarios_paso2') }}">  
+
+            <div style="padding-bottom: 2em; margin-bottom: 1em;">
+
+                {#Telefono movil #}
+                <div class="required field"  id="fieldTelefonoMovil">
+                    <label for="telefonoMovil" id="labelTelefonoMovil"> Tel&eacute;fono m&oacute;vil / Mobile number:</label>
+                    <div class="ui input">
+                        <input name="telefonoMovil" type="text" size="40" id="telefonoMovil" value="{{ datosSesionRegistro.telefonoMovil }}"/> 
+                    </div>
+                </div>
+
+                {#Correos de la BD #}                               
+                <div class="hidden" id="fieldCorreoElectronicoBD" >
+
+                    <label for="correoElectronico" id="labelCorreoElectronicoRegistrados"> Correo electr&oacute;nico actuales registrados/ E-mail:</label>
+                    <div class="ui ignored info message">
+                        <i class="info circle icon"></i>Se han recuperado las siguientes direcciones de correo. Seleccione una y se le enviará el código de verificación y credenciales de autenticación
+                    </div>
+                    {# FOR DE CORREOS #}
+                    {#Se rellena por AJAX #}
+                </div>
+
+                {#Correo electronico#}
+                {#Si no hay lista de correo se debe mostrar#} 
+                <div id="camposCorreoElectronico">
+                    <div class="required field" id="fieldCorreoElectronico" >
+                        <label for="correoElectronicoUsuario" id="labelCorreoElectronico"> Correo electr&oacute;nico / E-mail:</label>
+                        <div class="ui input">
+
+                            <input name="correoElectronicoUsuario" type="email" size="40" id="correoElectronicoUsuario" value="{{ datosSesionRegistro.correoElectronico }}"/> 
+
+                        </div>
+                    </div>
+
+                    {#Correo electronico - Confirmacion #}
+                    <div class="required field" id="fieldCorreoElectronico2"  >
+                        <label for="correoElectronicoUsuario2" id="labelCorreoElectronico2"> Correo electr&oacute;nico (Confirmaci&oacute;n) / E-mail (Confirmation):</label>
+                        <div class="ui input">
+
+                            <input name="correoElectronicoUsuario2" type="email" size="40" id="correoElectronicoUsuario2" value="{{ datosSesionRegistro.correoElectronico }}"/> 
+
+                        </div>
+                    </div>
+                </div>
+            </div>                                                                                                                                  
+
+            {#Codigo de verificacion #}
+            <div class="field" id="fieldCodigoVerificacion">
+                <div class="ui basic blue label" >
+                    <i class="info circle icon"></i>
+                    {{mensajeVerificacion|raw}}
+                </div>
+            </div>            
+
+            <div class="ui vertical  segment" style="border-bottom: none;">
+
+                {# Mensajes de error del formulario #}
+                <div id="mensajesError" class="ui error message">
+
+                </div>
+
+            </div>
+
+            {# botones #}         
+            <div class="fields">
+                <div class="six wide field">
+                    <button id="volver" class="ui button" name="volver" value="volverPaso2" type="button">Volver</button>
+                </div>
+
+                <div class="field">                    
+                    <button id="botonSubmit" class="ui submit button" name="enviar" value="enviarPaso2" type="submit">
+                        <i class="privacy large icon link width100Important"></i>Solicitar código de verificación / Send me the verification code</button>
+                    <input type="hidden" id="accionBT" name="accion" value ="enviarPaso2"/>                    
+                </div>
+            </div>                
+
+            {# Control CSRF y AJAX PINO #}
+            <input type="hidden" id="token" name="token" value="{{ csrf_token('aru-form') }}"/>
+            <input type="hidden" id="usuarioCorreo" name="usuarioCorreo" value="0"/>
+
+            <input disabled="disabled" type="hidden" id="urlcomprobarpaso2" name="urlcomprobarpaso2" value="{{ path('_registro_usuarios_comprobar_Paso2') }}">            
+            <input disabled="disabled" type="hidden" id="urlidentificacion" name="urlidentificacion" value="{{ path('_registro_usuarios_identificacion') }}">
+            <input disabled="disabled" type="hidden" id="urlcodigoverificacion" name="urlcodigoverificacion" value="{{ path('_registro_usuarios_codigo_verificacion') }}">
+            <input disabled="disabled" type="hidden" id="urlcomprobarverificacion" name="urlcodigoverificacion" value="{{ path('_registro_usuarios_comprobar_codigo_verificacion') }}">
+            <input disabled="disabled" type="hidden" id="urlcodigo" name="urlcodigoverificacion" value="{{ path('_registro_usuarios_captcha') }}"> 
+
+            <div id="plantillaCorreo" class="hidden"> 
+                <div class="inline field">
+                    <input  value="" name="correoElectronicoBD" type="radio" >
+                    <label style="cursor:pointer;" for="correoElectronicoBD"></label>
+                </div>
+            </div>
+
+        </form>
+
+    </div>            
+
+{% endblock %}
+
+
+{# JAVA SCRIPT #}
+{% block js %}
+    <script type="text/javascript" >
+
+        var listaCorreos = false;
+        {# Activa los checkbox , select (dropdown) de semantic #}
+            $('.ui.radio.checkbox').checkbox();
+            $('.ui.checkbox').checkbox();
+            $('.ui.dropdown').dropdown();
+
+            $('#volver').click(function () {
+                $('#accionBT').val('volverPaso2');
+                document.getElementById("formDatosUsuario2").submit();
+            });
+
+        {# Se comprueba el formulario antes de enviar un correo con el codigo de verificacion #}
+            $('#botonSubmit').click(function () {
+                event.preventDefault();
+                $('#accionBT').val('enviarPaso2');
+                
+        {# Se lanza primero el validate para que el usuario pueda ver los errores #}
+                $('#formDatosUsuario2').form('validate form');
+                
+        {# Si el formulario es válido, se lanza la función de comprobación del Paso2 #}
+                if ($('#formDatosUsuario2').form('is valid')) {
+                    $(window).scrollTop(0);
+                    $('#spinnerEnviando').addClass('active');
+                    ValidarPaso2(event);                    
+                };
+
+            });
+
+
+            // custom form validation rule (medio notificación)
+            $.fn.form.settings.rules.comprobarCorreoElectronicoBD = function () {
+
+                if (listaCorreos) {
+
+                    if ($('input[id^=correoElectronicoBD]:checked').length > 0) {
+                        
+                        return true;
+                    } else {
+                        return false;
+                    }
+                }else{
+                    return true;
+                }
+
+            };
+
+        {# Control de validacion #}
+            $('#formDatosUsuario2').form({
+
+                debug: true,
+                verbose: true,
+                on: 'submit',
+                inline: false,
+                templates: {
+                    error: function (errores) {
+        {# En caso de que se produzcan errores de validación en el formulario, se fuerza a mostrar el div de errores #}
+                        document.getElementById('mensajesError').style.display = "block";
+                        $('#mensajesError').show();
+
+                        var html = '<label>Revise los siguientes errores:</label><ul class="list">';
+                        $.each(errores, function (index, value) {
+                            html += '<li>' + value + '</li>';
+                        }),
+                                html += '</ul>';
+                        return $(html);
+                    },
+                },
+                fields: {
+
+                    telefono: {
+                        identifier: 'telefonoMovil',
+                        rules: [
+                            {
+                                type: 'regExp[/^(\\+?\\d+){9,20}$/]',
+                                prompt: 'Debe indicar un n\xfamero de tel\xe9fono.'
+                            }
+                        ]
+                    },
+                    emailBD: {
+                        identifier: 'correoElectronicoBD',
+                        rules: [{
+                                type: 'comprobarCorreoElectronicoBD',
+                                prompt: 'Debe indicar una direcci\xf3n de correo v\xe1lida.'
+                            }]
+                    },
+                   
+                    email1: {
+                        identifier: 'correoElectronicoUsuario',
+                        rules: [
+                            {
+                                type: 'email',
+                                prompt: 'Debe indicar una direcci\xf3n de correo v\xe1lida.'
+                            }
+                        ]
+                    },
+                    email12: {
+                        identifier: 'correoElectronicoUsuario2',
+                        depends: 'correoElectronicoUsuario',
+                        rules: [
+                            {
+                                type: 'email',
+                                prompt: 'Debe confirmar la direcci\xf3n de correo.'
+                            }
+                        ]
+                    }
+
+                }});
+    </script>
+
+    <script defer src="{{ asset('js/aruservicios.js') }}"></script>
+{% endblock %}{# empty Twig template #}

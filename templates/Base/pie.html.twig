@@ -1,0 +1,126 @@
+<div id="pie_nwi" role="contentinfo" aria-label="pie">
+    <div class="subir">
+        <a class="volver_arriba" id="smooth" href="#nwi_caja_con_encabezado">Volver arriba</a>
+    </div>
+    <div id="pie_nwi_primer_gradiente"></div>
+    <div class="ui container">
+        <div class="ui center aligned container">
+            <p> Para cualquier cuestión relacionada con la ayuda para el  uso de esta aplicación , la resolución de incidencias y la presentación de quejas y sugerencias puede ponerse en contacto con nosotros en 
+                    {% if app.session.get('datosAplicacion').getMailContacto is defined %}
+                <a class="enlace_sin_fondo_amarillo" href="mailto:{{ app.session.get('datosAplicacion').getMailContacto }}">{{ app.session
+                    .get
+                        ('datosAplicacion').getMailContacto }}
+                </a>
+                {%  endif %}  
+            </p>
+        </div>
+        <div class="ui grid">
+            <div class="sixteen wide computer large screen only row">
+                <div id="pie_redes" style="width: 100%;">
+                    <ul>
+                        <li id="pie_twitter">
+                            <a href="https://twitter.com/ulpgc" target="_blank"><span>Twitter</span></a>
+                        </li>
+                        <li id="pie_flickr">
+                            <a href="http://www.flickr.com/photos/ulpgc" target="_blank"><span>Flickr</span></a>
+                        </li>
+                        <li id="pie_facebook">
+                            <a href="http://www.facebook.com/pages/Ulpgc-Para-Ti/160435343978326?sk=wall" target="_blank"><span>Facebook</span></a>
+                        </li>
+                        <li id="pie_youtube">
+                            <a href="http://www.youtube.com/ulpgc" target="_blank" sl-processed="1"><span>YouTube</span></a>
+                        </li>
+                        <li id="pie_linkedin">
+                            <a href="http://www.linkedin.com/groups?mostPopular=&amp;gid=148332" target="_blank"><span>Linkedln</span></a>
+                        </li>
+                        <!-- <li id="pie_foursquare">
+                            <a href="https://es.foursquare.com/ulpgc" target="_blank"><span>FourSquare</span></a>
+                        </li> -->
+                        <li id="pie_issuu">
+                            <a href="http://issuu.com/ulpgc" target="_blank"><span>Issuu</span></a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="tablet mobile only row">
+                {#Se ocultan los iconos de las redes sociales cuando se muestra en movil/tablet#}
+                {#                <div class="ui horizontal list">
+                                    <a href="https://twitter.com/ulpgc" target="_blank" class="pie_twitter_responsive item enlace_sin_fondo_amarillo">Twitter</a>
+                                    <a href="http://www.flickr.com/photos/ulpgc" class="pie_flickr_responsive item enlace_sin_fondo_amarillo" target="_blank">Flickr</a>
+                                    <a href="http://www.facebook.com/pages/Ulpgc-Para-Ti/160435343978326?sk=wall" class="pie_facebook_responsive item enlace_sin_fondo_amarillo" target="_blank">Facebook</a>
+                                    <a href="http://www.youtube.com/ulpgc" target="_blank" class="pie_youtube_responsive item enlace_sin_fondo_amarillo" sl-processed="1">Youtube</a>
+                                    <a href="http://www.linkedin.com/groups?mostPopular=&amp;gid=148332" class="pie_linkedin_responsive item enlace_sin_fondo_amarillo" target="_blank">Linkedin</a>
+                                    <a href="https://es.foursquare.com/ulpgc" class="pie_foursquare_responsive item enlace_sin_fondo_amarillo" target="_blank">Foursquare</a>
+                                    <a href="http://issuu.com/ulpgc" class=" item enlace_sin_fondo_amarillo" target="_blank">Issu</a>
+                                </div>#}
+            </div>
+        </div>
+    </div>
+    <!-- <div class="clearer">&nbsp;</div> -->
+    <!-- Contenedor de gradiente superior del pie -->
+    <div id="pie_nwi_gradiente_superior"></div>
+
+    <!-- Contenedor del contenido principal del pie -->
+    <div id="pie_nwi_contenido">
+        <ul>
+            <li class="escritorio" id="nwi_pie_col1">
+                <a title="P&aacute;gina principal de ULPGC" href="http://www.ulpgc.es"><img alt="Logo ULPGC" src="/images/logo_ulpgc_negro.gif" ></a>
+            </li>
+            <li id="nwi_pie_col2">
+                <p class="nwi_pie_h1">Direcci&oacute;n</p>
+                <p class="vacio"> &nbsp;</p>
+                <p>Juan de Quesada, 30</p>
+                <p>35001 Las Palmas de Gran Canaria</p>
+                <p>España</p>
+                <p class="vacio">&nbsp;</p>
+                <p class="tipo_15"><a title="Ver en google maps" href="https://www.google.es/maps/preview#!data=!1m8!1m3!1d3!2d-15.420134!3d28.099363!2m2!1f149.7!2f90.85!4f90!2m7!1e1!2m2!1shF91uS97u-XIfM7qXfJ1MQ!2e0!5m2!1shF91uS97u-XIfM7qXfJ1MQ!2e0&amp;fid=5">Ver en Google Maps</a></p>
+            </li>
+            <li id="nwi_pie_col3">
+                <p class="nwi_pie_h1">Contacto</p>
+                <p class="vacio">&nbsp;</p>
+                <p><strong>E-mail:</strong> <a class="tipo_15_negro" href="mailto:universidad@ulpgc.es">universidad@ulpgc.es </a></p>
+                <p><strong>Tlf:</strong> (+34) 928 451 000</p>
+                <p><strong>Fax:</strong> (+34) 928 451 022</p>
+                <p class="vacio">&nbsp;</p>
+                <p><a title="Directorio telef&oacute;nico" href="https://www2.ulpgc.es/index.php?pagina=presentacion&ver=contacto">Directorio telefónico</a></p>
+            </li>
+            <li class="movil" id="nwi_pie_hueco"></li>
+            <li id="nwi_pie_col4">
+                <p class="nwi_pie_h1 laweb">La web</p>
+                <p class="vacio">&nbsp;</p>
+                <p class="aviso_legal"><a title="Leer el aviso legal de este sitio web" href="http://www.ulpgc.es/presentacion/aviso_legal">Información legal</a></p>
+                <p class="aviso_legal"><a title="Leer el aviso sobre cookies de este sitio web" href="http://www.ulpgc.es/presentacion/cookies">Cookies</a></p>
+                <p class="accesibilidad"><a title="Información sobre el nivel de accesibilidad de este sitio web" href="http://www.ulpgc.es/presentacion/accesibilidad">Accesibilidad</a></p>
+                <p class="contacto"><a title="Información general sobre este sitio web" href="http://www.ulpgc.es/presentacion/sobre_esta_web">Sobre esta web</a></p>
+            </li>
+        </ul>
+    </div>
+
+    <!-- Contenedor de gradiente inferior del pie -->
+    <div id="pie_nwi_gradiente_inferior"></div>
+
+    <!-- Contenedor de los patrocinadores -->
+    <div id="pie_nwi_patrocinadores">
+        <ul>
+            <li class="pct">
+                <a title="Parque científico tecnológico" href="http://pct.ulpgc.es" target="_blank"></a>
+            </li>
+            <li class="csocial">
+                <a title="Consejo social" href="http://www.csocial.ulpgc.es/" target="_blank"></a>
+            </li>
+            <li class="universia">
+                <a title="Universia" href="http://www.universia.es/index.htm" target="_blank"></a>
+            </li>
+
+            <li class="mecenas">
+                <a title="Mecenazgo" href="index.php?pagina=mecenazgo&amp;ver=inicio" target="_blank"></a>
+            </li>
+        </ul>
+    </div>
+
+    <!-- Contenedor de copyright al final del pie -->
+    <div id="pie_nwi_copyright">
+        <p>© Universidad de Las Palmas de Gran Canaria. ULPGC </p>
+    </div>
+</div>

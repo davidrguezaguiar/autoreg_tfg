@@ -1,0 +1,267 @@
+<div id="contenedor_general" role="banner" aria-label="cabecera">
+
+    <div id="zona_superior">
+
+    </div> <!-- /#zona_superior -->
+
+    <div class="clearer"></div>
+
+
+    <!-- Encabezado NWI -->
+    <div id="nwi_caja_con_encabezado">
+        <!--Contenedor del encabezado completo   -->
+        <div id="nwi_encabezado">
+            <div id="arriba"></div>
+            <!-- Contenedor del Logo de la ULPGC -->
+            <div class="escritorio" id="nwi_encabezado_logo_ulpgc">
+                <a title="P&aacute;gina principal de ULPGC" href="http://www.ulpgc.es"></a>
+            </div>
+
+            <div id="nwi_bloque_derecho_encabezado">
+                <!-- Contenedor de Acceso a MiULPGC -->
+                {% if  app.session.has('userObject') %}
+
+                    <div class="escritorio" id="nwi_encabezado_miulpgc_logado_miulpgc">
+                        <ul>
+                            <li>
+                                <a class="miulpgc" href="https://www2.ulpgc.es/index.php?pagina=miulpgc&ver=miulpgc"><span
+                                        class="ico2_miulpgc"></span>MiULPGC</a>
+                            </li>
+                            <li>
+                                <a title="exit" class="miulpgc_salir" href="{{ path ('cas_logout') }}"><span
+                                        class="ico_salir_miulpgc"></span></a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="miulpgc_sesion escritorio" id="nwi_encabezado_miulpgc_logado_nombre">
+                        {% if  app.session.has('userObject') %}
+                            {% if app.session.get('userObject') is iterable %}
+                                <p>
+                                    <label
+                                        class="nwi_miulpgc_usuario">{{ app.session.get('userObject').nombre | title | default("") }}</label>
+
+
+                                    <label
+                                        class="nwi_miulpgc_usuario">{{ app.session.get('userObject').apellido1 | title | default("") }}</label>
+                                    <label
+                                        class="nwi_miulpgc_usuario">{{ app.session.get('userObject').apellido2 | title | default("") }}</label>
+                                </p>
+                            {% else %}
+                                <p>
+                                    {% if not (app.session.get('userObject').getNombre is empty) %}
+
+                                        <label
+                                            class="nwi_miulpgc_usuario">{{ app.session.get('userObject').getNombre | title | default("") }}</label>
+
+                                    {% endif %}
+                                    {% if not (app.session.get('userObject').getApellido1 is empty) %}
+                                        <label
+                                            class="nwi_miulpgc_usuario">{{ app.session.get('userObject').getApellido1 | title | default("") }}</label>
+                                    {% endif %}
+                                    {% if not (app.session.get('userObject').getApellido2 is empty) %}
+                                        <label
+                                            class="nwi_miulpgc_usuario">{{ app.session.get('userObject').getApellido2 | title | default("") }}</label>
+                                    {% endif %}
+                                </p>
+                            {% endif %}
+                        {% endif %}
+
+                    </div>
+
+                {% else %}
+
+                    <div class="escritorio" id="nwi_encabezado_miulpgc">
+                        <span class="ico_miulpgc"></span>
+                        <form name="formulario_acceso_miulpgc" action="{{ path('cas_login') }}"
+                              method="post" accept-charset="UTF-8">
+                            <input name="intento_login" type="hidden" value="1">
+                            <input name="login" type="hidden" value="1">
+                            <input name="accion" class="button" type="submit" value="Acceder a MiULPGC">
+                        </form>
+                    </div>
+
+                {% endif %}
+
+                <!-- Cabecera del diseÃ±o movil -->
+
+
+                {% if  app.session.has('userObject') %}
+
+                    <div class="movil" id="nwi_logado_movil_menu_y_miulpgc">
+                        <ul>
+                            <li class="ultimos">
+                                <a class="desconectar" href="{{ path ('cas_logout') }}"><span
+                                        class="ico_salir_miulpgc"></span></a>
+                            </li>
+                            <li class="ultimos">
+                                <a class="miulpgc" href="https://www2.ulpgc.es/index.php?pagina=miulpgc&ver=miulpgc">
+                                    <span class="ico2_miulpgc"></span>
+
+                                </a>
+
+                                {% if  app.session.has('userObject') %}
+                                    {% if app.session.get('userObject') is iterable %}
+                                        <p>
+                                            <label class="nwi_miulpgc_usuario">{{ app.session.get('userObject').nombre |title }}</label>
+                                        </p>
+                                        <p>
+                                            <label
+                                                class="nwi_miulpgc_usuario">{{ app.session.get('userObject').apellido1 |title }} {{ app.session.get('userObject').apellido2 |title }}</label>
+                                        </p>
+                                    {% else %}
+                                        <p>
+                                            <label class="nwi_miulpgc_usuario">{{ app.session.get('userObject').getNombre |title }}</label>
+                                        </p>
+                                        <p>
+                                            <label
+                                                class="nwi_miulpgc_usuario">{{ app.session.get('userObject').getApellido1 |title }} {{ app.session.get('userObject').getApellido2 |title }}</label>
+                                        </p>
+                                    {% endif %}
+                                {% endif %}
+
+                            </li>
+                        </ul>
+                    </div>
+                {% else %}
+
+                    <div class="movil" id="nwi_login_movil_menu_y_miulpgc">
+                        <ul>
+                            <li class="ultimo" style="padding: 1px; height:auto; padding-left:10px;">
+                                <span class="ico_miulpgc"></span>
+                                <form name="formulario_acceso_miulpgc" action="{{ path('cas_login') }}" method="post"
+                                      accept-charset="UTF-8">
+                                    <input name="intento_login" type="hidden" value="1">
+                                    <input name="login" type="hidden" value="1">
+                                    <input name="accion" class="button miulpgc" type="submit" value="MiULPGC">
+                                </form>
+                            </li>
+                        </ul>
+                    </div>
+
+                {% endif %}
+                <!-- Fin cabecera movil -->
+
+
+                <!-- Contenedor de los enlaces del encabezado -->
+                <div class="escritorio" id="nwi_encabezado_enlaces">
+                    <ul>
+                        <li>
+                            <a href="http://sede.ulpgc.es"><span class="ico_sede"></span>Sede electrónica</a>
+                        </li>
+                        <li>
+                            <a href="http://biblioteca.ulpgc.es"><span class="ico_biblio"></span>Biblioteca</a>
+                        </li>
+                        <li>
+                            <a href="http://correo.ulpgc.es"><span class="ico_correo"></span>Correo</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div style="clear: right"></div>
+                <div class="movil" id="logo_ulpgc_movil">
+                    <a title="Inicio" href="http://www.ulpgc.es">
+                        <span>ULPGC - Universidad de Las Palmas de Gran Canaria</span>
+                    </a>
+                </div>
+                <!-- Contenedor del buscador -->
+                <!-- DiseÃ±o escritorio -->
+                <div class="escritorio" id="nwi_encabezado_buscador">
+                    <form action="index.php"> <!-- id="cse-search-box" -->
+                        <input name="pagina" type="hidden" value="busqueda">
+                        <input name="ver" type="hidden" value="google">
+                        <input name="cx" type="hidden" value="015287457728437169121:wsqhyz0xz24">
+                        <input name="cof" type="hidden" value="FORID:10;NB:1">
+                        <input name="ie" type="hidden" value="ISO-8859-1">
+                        <input name="q" class="area" aria-label="encuentra lo que necesitas" type="text"
+                               placeholder="encuentra lo que necesitas / search in ULPGC site">
+                        <input name="sa" class="button" type="submit">
+
+                    </form>
+                    <script src="//www.google.com/jsapi" type="text/javascript"></script>
+                </div>
+                <!--DiseÃ±o movil -->
+                <div class="movil" id="nwi_encabezado_buscador_movil">
+                    <form action="index.php"> <!-- id="cse-search-box" -->
+                        <input name="pagina" type="hidden" value="busqueda">
+                        <input name="ver" type="hidden" value="google">
+                        <input name="cx" type="hidden" value="015287457728437169121:wsqhyz0xz24">
+                        <input name="cof" type="hidden" value="FORID:10;NB:1">
+                        <input name="ie" type="hidden" value="ISO-8859-1">
+                        <input name="sa" class="button" type="submit">
+                        <input name="q" class="area" type="text" placeholder="encuentra lo que necesitas / search in ULPGC site">
+
+                    </form>
+                    <script src="//www.google.com/jsapi" type="text/javascript"></script>
+                </div>
+
+                <!-- Contenedor del enlaces idiomas -->
+                <div class="escritorio" id="nwi_encabezado_idiomas">
+                    <ul>
+                        <li>
+                            <a href="http://www.english.ulpgc.es">English</a>
+                        </li>
+                        <li>
+                            <a href="http://www.francais.ulpgc.es">Français</a>
+                        </li>
+                        <li>
+                            <a href="http://www.ch.ulpgc.es">中 文</a>
+                        </li>
+                    </ul>
+                </div>   <!--FIN nwi_encabezado_idiomas   -->
+            </div>  <!-- FIN nwi_bloque_derecho_encabezado   -->
+        </div>  <!-- FIN nwi_encabezado  -->
+
+        {% if app.environment != 'dev' %}
+            <div class="escritorio" id="sombra_superior"></div>
+        {% endif %}
+    </div>  <!-- FIN nwi_caja_con_encabezado   -->
+
+    {% if  app.session.has('userObject') %}
+        {% if app.environment == 'dev' %}
+            <div id="divEnlaceAccesoAplicacion" class="entorno-desarrollo ui three column grid">
+            {% else %}
+                <div class="ui three column grid">
+                {% endif %}
+                <div class="column texto-izquierda">
+                    {% if ( app.session.get('aplicacionDeshabilitada')  ) %}
+                        {# sustituir por la linea de superior por la inferior para que solo el rol correspondiente deshabilite la aplicacion
+                        {% if ( app.session.get('aplicacionDeshabilitada') and is_granted ("Aqui va el rol gestor") ) %} #}
+                        <a href="{{ path ('habilitar_deshabilitar_aplicacion',{'accion' : 1} ) }}">
+                            Habilitar aplicaci&oacute;n</a>
+
+                    {% elseif (is_granted("ROLE_GA_INTERNACIONAL")) %}
+                        <a href="{{ path ('habilitar_deshabilitar_aplicacion',{'accion' : 0} ) }}">
+                            Deshabilitar aplicaci&oacute;n</a>
+
+                    {% endif %}
+
+                </div>
+                {% if app.environment == 'dev' %}
+                    <div class="column texto-centro">
+                        <a class="enlace_sin_fondo_amarillo" href="{#{{ path('_inicio') }}#}" title="Acceso al catalogo de servicios, solo en desarrollo"><i class="home icon"></i></a>
+                        Usted est&aacute; en el entorno de desarrollo
+                    </div>
+
+                    {#{% if ( nombre_app_suplantada is defined and nombre_app_suplantada is not empty ) %}#}
+                    <div class="column texto-derecha">
+                        {% if not app.session.has('informacion_identidad_suplantada') %}
+                            {#Descomentar la línea para que solo el rol correspondiente suplantar identidad
+                             {%  if  is_granted("Aquí va el rol gestor") %}#}
+                            <a href="{{ path('_suplantar_identidad') }}">Simular Identidad</a>
+                        {% else %}
+                            <span class="texto-suplantado">[{{ app.session.get('informacion_identidad_suplantada').getDni }}
+                                &nbsp;{{ app.session.get('informacion_identidad_suplantada').getNombreCompleto }}]
+                            </span>
+                            <a href="{{ path('_abandonar_suplantar_identidad') }}">
+                                Cerrar simulaci&oacute;n</a>
+                            {% endif %}
+                        <a style="margin-left: 1em;" class="enlace_sin_fondo_amarillo" href="{{ path('_borrarCacheUsuario') }}" title="Reciclando y limpiando el mundo"><i class="recycle icon"></i></a>
+                    </div>
+                    {#{% endif %}#}
+                {% endif %}
+            </div>
+        {% endif %}
+
+        <!-- Fin encabezado NWI -->
+    </div>
+ </div>

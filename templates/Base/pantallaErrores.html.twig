@@ -1,0 +1,22 @@
+{% set sinFlashMessage = true %}
+{% extends 'Base/index.html.twig' %}
+{% block body %}
+
+    <h2></h2>
+    <br/>
+    <br/>
+    {% if app.session.flashbag.has('error') %}
+        {% for stringMesage in app.session.flashbag.get( 'error' ) %}
+            <div class="ui negative message" style="text-align: justify; padding-right: 2%; overflow-wrap: break-word;">
+                <div class="flash header">
+                    <i class="times circle icon"></i>{{ stringMesage|nl2br}}
+                </div>
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    <br/>
+    <br/>
+{% endblock body %}
+
+

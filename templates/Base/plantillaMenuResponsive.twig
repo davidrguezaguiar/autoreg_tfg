@@ -1,0 +1,16 @@
+{% block menu %}
+    <header>
+        <div class="menu_responsive menuVertical" >
+            <input type="checkbox" id="boton-menu" name="boton-menu" value="no">
+            <label for="boton-menu"><span><i id="icono_barras_menu" class="large bars icon"></i></span></label>
+            <div class="menu_lateral ui vertical menu">
+                <div class="item">
+                    <div class="header">Menú principal</div>
+                    <div class="menu">
+                        <a class="item" href="{{ path('_inicio') }}">Inicio</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+{% endblock %}

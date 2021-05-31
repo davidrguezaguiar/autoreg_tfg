@@ -1,0 +1,87 @@
+{% extends 'Base/index.html.twig' %}
+
+{% block body %}
+
+
+    <div class="h1 ui dividing header">{{ literal('TITULO_PANTALLA_LOPD') }}</div>
+    {# Para cuadrar el grid inferior #}
+    <div class="ui container">
+        <div class="ui raised segment">
+            <span class="ui blue ribbon label"><strong>RESPONSABLE</strong></span>
+            <div class="ui form">
+
+                <div class="inline field">
+                    <br/>
+                    <label for="identidad">Identidad:</label>
+                    <span id="identidad">Universidad de Las Palmas de Gran Canaria</span>
+                </div>
+                <div class="inline field">
+                    <br/>
+                    <label for="delegado">Delegado de Protecci&oacute;n de Ddatos:</label>
+                    <span id="deletado">Noem&iacute; Rey Y&eacute;benes (<a href="mailto:dpd@ulpgc.es">dpd@ulpgc.es</a>)</span>
+                </div>
+                <div class="inline field">
+                    <br/>
+                    <label for="direccionpostal">Direcci&oacute;n postal:</label>
+                    <span id="direccionpostal">Juan de Quesada,30 - Las Palmas de Gran Canaria (35001)</span>
+                </div>
+                <div class="inline field">
+                    <br/>
+                    <label for="telefono">Tel&eacute;fono:</label>
+                    <span id="telefono">(+34) 928 45 10 00</span>
+                </div>
+                <div class="inline field">
+                    <br/>
+                    <label for="correo">Correo-e:</label>
+                    <span id="correo"><a href="mailto:dpd@ulpgc.es">dpd@ulpgc.es</a></span>
+                </div>
+                <div class="field">
+                    <br/>
+                    <label for="finalidad">Finalidad</label>
+                    <span id="finalidad">Gestionar la solicitud de la persona interesada, facilitarle el cumplimiento de futuras
+solicitudes y recibir comunicaciones en expedientes en los que pudiera resultar afectada.</span>
+                </div>
+                <div class="field">
+                    <br/>
+                    <label for="legitimacion">Legitimaci&oacute;n:</label>
+                    <span id="direccionpostal">Consentimiento del interesado: artículo 6.1.a) del RGPD.</span>
+                </div>
+                <div class="field">
+                    <br/>
+                    <label for="destinatarios">Destinatarios:</label>
+                    <span id="destinatarios">No se cederán datos a terceros, salvo obligación legal.</span>
+                </div>
+                <div class="field">
+                    <br/>
+                    <label for="derechos">Derechos:</label>
+                    <span id="derechos">
+                        <ul>
+                            <li>Derecho a solitiar el acceso a sus datos personales.</li>
+                            <li>Derecho a solitiar su rectificaci&oacute;n o supresi&oacute;n.</li>
+                            <li>Derecho a solitiar la limitaci&oacute;n de su tratamiento.</li>
+                            <li>Derecho a oponerse al tratamiento.</li>
+                            <li>Derecho a la portabilidad de los datos.</li>
+                        </ul>
+                    </span>
+                </div>
+                <div class="field">
+                    <br/>
+                    <label for="ejercicio">Para ejercitar sus derechos:</label>
+                    <span id="ejercicio">Puede realizarlo mediante el tr&aacute;mite <a target="_blank" title="Pdf de Ejercicio de Derechos para la ULPGC, abre en ventana nueva" href="{{ path('_solicitud_generica_pdf', {'codigoDocumento': pdfEjercicioDerecho}) }}">Ejercicio de derechos de protecci&oacute;n de datos</a> disponible en la Sede Electr&oacute;nica.</span>
+                </div>
+                <div class="field">
+                    <br/>
+                    <label for="informacionadicional">Informaci&oacute;n adicional:</label>
+                    <span id="informacionadicional"><a target="_blank" title="Pdf de Reglamento Europeo, abre en ventana nueva" href="{{ path('_solicitud_generica_pdf', {'codigoDocumento': pdfReglamentoEuropeo}) }}">Consultar informaci&oacute;n adicional sobre la Protecci&oacute;n de Datos</a></span>
+                </div>
+            </div>
+
+
+        </div>
+
+    </div>
+<br/>
+<br/>
+{% endblock %}
+
+

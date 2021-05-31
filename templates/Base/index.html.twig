@@ -1,0 +1,84 @@
+{% set tituloPantalla =  tituloPantalla is defined ? tituloPantalla : ' ULPGC - Aplicaciones ' %}
+{% set mostrarAlerta =  mostrarAlerta is defined ? true : false %}
+{# Declaracion tipo HTML 5 #}
+<!DOCTYPE html>
+
+<html lang="es">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=1, initial-scale=1.0">   
+    {#se agrega para que se adapte a la pantalla del tlf#}
+    <link rel="icon" type="image/x-icon" href="/images/favicon.ico"/>
+    <link rel="stylesheet" href="//cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css"/>
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.1/semantic.min.css"/>
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.css">
+    <link rel="stylesheet" type="text/css" charset="UTF-8" media="all" href="/css/comun.css"/>
+    <link rel="stylesheet" type="text/css" charset="UTF-8" media="all" href="{{ asset('css/estilosARU.css') }}"/>    
+
+    {% block css %}
+    {#Hojas de estilo especificas del proyecto#}
+    {% endblock %}
+
+    <title>
+        {% block title %}
+            {{ tituloPantalla }}
+        {% endblock %}
+    </title>
+</head>
+
+{% if mostrarAlerta == true %}
+    {% block mensajeAlerta %}
+        <div style="
+	width: 100%;
+	height: 10%;
+	border: 2px solid red;
+	text-align: center;
+	padding: 1em;
+	font-weight: 800;
+	font-size: larger;
+">
+            {textoMostrar}
+        </div>
+    {% endblock %}
+{% endif %}
+
+{# Cabecera de la pagina fija #}
+{% include ('Base/cabecera.html.twig') %}
+{% include 'Base/spinners.html.twig' %}
+{% include 'Base/regionMensajes.html.twig' %}
+
+<div class="contenido">
+
+    <section id="contenidoSeccion" role="main">
+        <div class="lienzo-aplicacion">
+            <div class="pantalla-proyecto">
+                {% if titulo is defined and titulo != "" %}
+                    <h1 class="tituloPantalla">{{ titulo }}</h1>
+                {% endif %}
+                {% block body %}
+                {% endblock %}
+            </div>
+        </div>
+    </section>
+
+</div> {# Div Base #}
+
+{# Pie de la pagina fija #}
+{% include 'Base/pie.html.twig' %}
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="//cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.1/semantic.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@latest/dist/sweetalert2.all.min.js"></script>
+
+{% block js %}{% endblock %}
+
+{#Para probar JS en desarrollo #}
+{% if app.environment == 'dev' %}
+    <input type="hidden" id="urlDesarrolloAJAX" value="{{ path('ajax_variables_desarrollo') }}" />
+    <script  defer src="{{ asset('js/desarrolloDebug.js') }}"></script>
+{% endif %}
+</body>
+</html>

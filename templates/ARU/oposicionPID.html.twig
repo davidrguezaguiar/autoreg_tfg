@@ -1,0 +1,27 @@
+<div class="ui message">
+    {# Texto de informacion sobre plataforma intermediacion de datos #}
+    {{ literalARU('TEXT_INFORMACION_PID') }}
+
+    <div class="grouped fields">
+        <div class="field">
+            <label class="">ACEPTACIÓN DE CONDICIONES
+                <br/>
+                Oposición a interoperabilidad entre Administraciones</label>
+        </div>
+     
+        <div class="field">
+            <div id="PIDVDocumentoIdentificativo" class="ui checkbox">
+                <input required="required" name="consultaDocumentoIdentificativo" id="consultaDocumentoIdentificativo" class="hidden" type="checkbox">
+                <label>{{ literal ('TEXT_PID_DOCUMENTO_IDENTIDAD') }}</label>
+            </div>
+        </div>                       
+
+        <label> <a href="{{ path('_consentimiento_LOPD')}}">Información sobre protección de datos</a></label>
+        <div class="required field">
+            <div class="ui checkbox">
+                <input required="required" name="lopd" id="lopd" class="hidden" type="checkbox">
+                <label>He leído la información sobre protección de datos y acepto las condiciones</label>
+            </div>
+        </div>
+    </div>
+</div>     

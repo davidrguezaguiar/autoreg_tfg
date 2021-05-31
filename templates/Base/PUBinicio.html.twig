@@ -1,0 +1,18 @@
+{% extends 'Base/index.html.twig' %}
+
+{% block body %}
+    <div class="centrado">
+        <div class="h1 ui dividing header">Cat&aacute;logo de servicios (desarrollo) PUBLICO</div>
+        
+        {# Para cuadrar el grid inferior #}
+        <div class="ui container">
+            <div class ="ui segment" style="margin-bottom: 5em;">
+                <ul>
+                    <li><a href="{{ path("_certificacion_academica_personal") }}">Certificado académico personal</a></li>
+                    <li><a href="{{ path("_cambioIBAN_personal") }}">Cambio de IBAN del personal</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    
+{% endblock %}
